@@ -76,10 +76,10 @@ app.get('/lists', async (req, res) => {
 });
 
 app.get('/colortheme', async (req, res) => {
-    let user = req.query.username
+    let filter = req.query.username
     let pass = req.query.password
-    console.log(user)
-    const user = await checkPass(user)
+    console.log(filter)
+    const user = await checkPass(filter)
     console.log(user)
     const match = check(user.data[0].password, pass)
     res.send(match)
@@ -148,6 +148,7 @@ app.delete('/tasks', async (req, res) => {
 app.delete('/tasksdone', async (req, res) => {
     let user = req.query.user.toString()
     let list = req.query.list.toString()
+
     await deleteCompletedTasks(user, list)
     console.log('A Done Task DELETE Request was made!');
     res.send()
