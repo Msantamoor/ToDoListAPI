@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const { testConnection } = require('./taskDAL.js')
-const { createUser } = require('./taskDal.js')
+const { createUser } = require('./taskDAL.js')
 const { createTask } = require('./taskDAL.js')
 const { createList }  = require('./taskDAL.js')
 const { readTasks } = require('./taskDAL.js')
