@@ -123,7 +123,7 @@ const createUser = (user) => {
     return iou
 }
 
-const readTasks = (filter1, filter2) => {
+const readTasks = (user, list) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -135,7 +135,7 @@ const readTasks = (filter1, filter2) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDo');
                 // Find some documents
-                collection.find({ $and: [{user: { $eq: filter1 }}, {list: { $eq: filter2 }}] }).toArray(function (err, docs) {
+                collection.find({ $and: [{user: { $eq: user }}, {list: { $eq: list }}] }).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else {
@@ -166,7 +166,7 @@ const checkComplete = (filter1, filter2) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDo');
                 // Find some documents
-                collection.find({ $and: [{_id: { $eq: ObjectId(filter1) }}, {completed: { $eq: filter2 }}] }).toArray(function (err, docs) {
+                collection.find({ $and: [{ _id: { $eq: ObjectId(filter1) }}, {completed: { $eq: filter2 }}] }).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else if(docs.length > 0){
@@ -191,7 +191,7 @@ const check = (check1, check2) => {
     }
 }
 
-const checkPass = (filter) => {
+const checkPass = (username) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -203,13 +203,13 @@ const checkPass = (filter) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDoUsers');
                 // Find some documents
-                collection.find({ username: filter }).toArray(function (err, docs) {
+                collection.find({ username: username }).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else {
                         const results = {
                             data: docs,
-                            msg: `Found the following records ${filter}`
+                            msg: `Found the following records`
                         }
 
                         client.close();
@@ -223,7 +223,7 @@ const checkPass = (filter) => {
 }
 
 
-const checkUse = (filter) => {
+const checkUse = (username) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -235,7 +235,7 @@ const checkUse = (filter) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDoUsers');
                 // Find some documents
-                collection.find({ username: filter }).toArray(function (err, docs) {
+                collection.find({ username: username }).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else if(docs.length === 0){
@@ -252,7 +252,7 @@ const checkUse = (filter) => {
     return iou;
 }
 
-const checkEmail = (filter) => {
+const checkEmail = (email) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -264,7 +264,7 @@ const checkEmail = (filter) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDoUsers');
                 // Find some documents
-                collection.find({ email: filter }).toArray(function (err, docs) {
+                collection.find({ email: email }).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else if(docs.length === 0){
@@ -345,7 +345,7 @@ const readTasksById = (id) => {
     return iou;
 }
 
-const readLists = (filter) => {
+const readLists = (name) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -357,7 +357,7 @@ const readLists = (filter) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDoLists');
                 // Find some documents
-                collection.find({ user: filter}).toArray(function (err, docs) {
+                collection.find({ user: name}).toArray(function (err, docs) {
                     if (err) {
                         reject(err)
                     } else {
@@ -432,7 +432,7 @@ const updateListbyID = (id, list) => {
     return iou;
 }
 
-const updateListAttributes = (user, filter, taskUpdate) => {
+const updateListAttributes = (user, list, taskUpdate) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -444,7 +444,7 @@ const updateListAttributes = (user, filter, taskUpdate) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDo');
                 // Find some documents
-                collection.updateMany({ $and: [ {user: { $eq: user }}, {list: {$eq: filter}} ] },
+                collection.updateMany({ $and: [ {user: { $eq: user }}, {list: {$eq: list}} ] },
                 { $set: { ...taskUpdate } },
                 (function (err, docs) {
                     if (err) {
@@ -460,38 +460,6 @@ const updateListAttributes = (user, filter, taskUpdate) => {
     return iou;
 }
 
-
-
-const updateTasks = (target, filter, task) => {
-    let iou = new Promise((resolve, reject) => {
-
-        // Use connect method to connect to the server
-        MongoClient.connect(url, settings, function (err, client) {
-            if (err) {
-                reject(err)
-            }
-            else {
-                console.log("Connected to server to Update a Contact");
-
-                const db = client.db(dbName);
-                // Get the tasks collection
-                const collection = db.collection('ToDo');
-                // Insert a document
-                collection.updateMany({ [target]: filter },
-                    { $set: { ...task } },
-                    function (err, result) {
-                        if (err) {
-                            reject(err)
-                        } else {
-                            client.close();
-                            resolve("Updated a document in the collection");
-                        }
-                    });
-            }
-        });
-    })
-    return iou
-}
 
 const deleteTask = (id) => {
     let iou = new Promise((resolve, reject) => {
@@ -551,7 +519,7 @@ const deleteTasks = (user, list, selectedTasks) => {
 };
 
 
-const deleteCompletedTasks = (filter1, filter2) => {
+const deleteCompletedTasks = (user, list) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -563,7 +531,7 @@ const deleteCompletedTasks = (filter1, filter2) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDo');
                 // Insert a document
-                collection.deleteMany({ $and: [{user: { $eq: filter1 }}, {list: { $eq: filter2 }}, {completed: {$eq: "true"}}] },
+                collection.deleteMany({ $and: [{user: { $eq: user }}, {list: { $eq: list }}, {completed: {$eq: "true"}}] },
                     function (err, result) {
                         if (err) {
                             reject(err)
@@ -607,7 +575,7 @@ const deleteList = (id) => {
     return iou
 };
 
-const deleteListTasks = (filter1, filter2) => {
+const deleteListTasks = (user, list) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
         MongoClient.connect(url, settings, function (err, client) {
@@ -619,7 +587,7 @@ const deleteListTasks = (filter1, filter2) => {
                 // Get the tasks collection
                 const collection = db.collection('ToDo');
                 // Insert a document
-                collection.deleteMany({ $and: [{user: { $eq: filter1 }}, {list: { $eq: filter2 }}] },
+                collection.deleteMany({ $and: [{user: { $eq: user }}, {list: { $eq: list }}] },
                     function (err, result) {
                         if (err) {
                             reject(err)
@@ -636,7 +604,7 @@ const deleteListTasks = (filter1, filter2) => {
 };
 
 
-module.exports = { testConnection, createTask, createList, createUser, readTasks, checkComplete, checkPass, checkUse, checkEmail, check, deleteTask, deleteTasks, deleteCompletedTasks, deleteList, deleteListTasks, readTasksByListId, readTasksById, readLists, updateTaskById, updateTasks, updateListbyID, updateListAttributes };
+module.exports = { testConnection, createTask, createList, createUser, readTasks, checkComplete, checkPass, checkUse, checkEmail, check, deleteTask, deleteTasks, deleteCompletedTasks, deleteList, deleteListTasks, readTasksByListId, readTasksById, readLists, updateTaskById, updateListbyID, updateListAttributes };
 
 
 //const main = async () => {
