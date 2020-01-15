@@ -15,9 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'react')));
-app.get('/*', function(req, res){
-    res.sendFile(path.join(__dirname, './react/', 'index.html'))
-})
+
 
 const { testConnection } = require('./DataAccessLayer.js')
 const { createUser } = require('./DataAccessLayer.js')
@@ -180,6 +178,10 @@ app.delete('/selecttasks', async (req, res) => {
     console.log('Deleted Selected Tasks')
     res.send()
 
+})
+
+app.get('/*', function(req, res){
+    res.sendFile(path.join(__dirname, './react/', '/'))
 })
 
 app.listen(PORT, () => console.log(`Server is up on port ${PORT}.`));
