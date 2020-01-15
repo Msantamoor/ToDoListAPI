@@ -15,9 +15,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'react')));
-app.get('/*', function(req, res){
-    res.sendFile(path.join(__dirname, './react/', 'index.html'))
-})
+// app.get('/*', function(req, res){
+//     res.sendFile(path.join(__dirname, './react/', 'index.html'))
+// })
 
 const { testConnection } = require('./DataAccessLayer.js/index.js')
 const { createUser } = require('./DataAccessLayer.js/index.js')
