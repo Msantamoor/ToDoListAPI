@@ -15,27 +15,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'react')));
+app.get('/*', function(req, res){
+    res.sendFile(path.join(__dirname, './react/', 'index.html'))
+})
 
+const { testConnection } = require('./DataAccessLayer.js/index.js')
+const { createUser } = require('./DataAccessLayer.js/index.js')
+const { createTask } = require('./DataAccessLayer.js/index.js')
+const { createList }  = require('./DataAccessLayer.js/index.js')
+const { readTasks } = require('./DataAccessLayer.js/index.js')
+const { readLists } = require('./DataAccessLayer.js/index.js')
+const { checkPass } = require('./DataAccessLayer.js/index.js')
+const { check } = require('./DataAccessLayer.js/index.js')
+const { checkUse } = require('./DataAccessLayer.js/index.js')
+const { checkEmail } = require('./DataAccessLayer.js/index.js')
+const { deleteCompletedTasks } = require('./DataAccessLayer.js/index.js')
+const { deleteList } = require('./DataAccessLayer.js/index.js')
+const { updateTaskById } = require('./DataAccessLayer.js/index.js')
+const { deleteTask } = require('./DataAccessLayer.js/index.js')
+const { checkComplete } = require('./DataAccessLayer.js/index.js')
+const { deleteListTasks } = require('./DataAccessLayer.js/index.js')
+const { updateListbyID } = require('./DataAccessLayer.js/index.js')
+const { updateListAttributes } = require('./DataAccessLayer.js/index.js')
+const { deleteTasks } = require('./DataAccessLayer.js/index.js')
 
-const { testConnection } = require('./taskDAL.js')
-const { createUser } = require('./taskDAL.js')
-const { createTask } = require('./taskDAL.js')
-const { createList }  = require('./taskDAL.js')
-const { readTasks } = require('./taskDAL.js')
-const { readLists } = require('./taskDAL.js')
-const { checkPass } = require('./taskDAL.js')
-const { check } = require('./taskDAL.js')
-const { checkUse } = require('./taskDAL.js')
-const { checkEmail } = require('./taskDAL.js')
-const { deleteCompletedTasks } = require('./taskDAL.js')
-const { deleteList } = require('./taskDAL.js')
-const { updateTaskById } = require('./taskDAL.js')
-const { deleteTask } = require('./taskDAL.js')
-const { checkComplete } = require('./taskDAL.js')
-const { deleteListTasks } = require('./taskDAL.js')
-const { updateListbyID } = require('./taskDAL.js')
-const { updateListAttributes } = require('./taskDAL.js')
-const { deleteTasks } = require('./taskDAL.js')
 
 
 
