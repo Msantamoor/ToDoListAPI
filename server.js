@@ -15,32 +15,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'react')));
-// app.get('/*', function(req, res){
-//     res.sendFile(path.join(__dirname, './react/', 'index.html'))
-// })
+app.get('/*', function(req, res){
+    res.sendFile(path.join(__dirname, './react/', 'index.html'))
+})
 
-const { testConnection } = require('./DataAccessLayer.js/index.js')
-const { createUser } = require('./DataAccessLayer.js/index.js')
-const { createTask } = require('./DataAccessLayer.js/index.js')
-const { createList }  = require('./DataAccessLayer.js/index.js')
-const { readTasks } = require('./DataAccessLayer.js/index.js')
-const { readLists } = require('./DataAccessLayer.js/index.js')
-const { checkPass } = require('./DataAccessLayer.js/index.js')
-const { check } = require('./DataAccessLayer.js/index.js')
-const { checkUse } = require('./DataAccessLayer.js/index.js')
-const { checkEmail } = require('./DataAccessLayer.js/index.js')
-const { deleteCompletedTasks } = require('./DataAccessLayer.js/index.js')
-const { deleteList } = require('./DataAccessLayer.js/index.js')
-const { updateTaskById } = require('./DataAccessLayer.js/index.js')
-const { deleteTask } = require('./DataAccessLayer.js/index.js')
-const { checkComplete } = require('./DataAccessLayer.js/index.js')
-const { deleteListTasks } = require('./DataAccessLayer.js/index.js')
-const { updateListbyID } = require('./DataAccessLayer.js/index.js')
-const { updateListAttributes } = require('./DataAccessLayer.js/index.js')
-const { deleteTasks } = require('./DataAccessLayer.js/index.js')
-
-
-
+const { testConnection } = require('./DataAccessLayer.js')
+const { createUser } = require('./DataAccessLayer.js')
+const { createTask } = require('./DataAccessLayer.js')
+const { createList }  = require('./DataAccessLayer.js')
+const { readTasks } = require('./DataAccessLayer.js')
+const { readLists } = require('./DataAccessLayer.js')
+const { checkPass } = require('./DataAccessLayer.js')
+const { check } = require('./DataAccessLayer.js')
+const { checkUse } = require('./DataAccessLayer.js')
+const { checkEmail } = require('./DataAccessLayer.js')
+const { deleteCompletedTasks } = require('./DataAccessLayer.js')
+const { deleteList } = require('./DataAccessLayer.js')
+const { updateTaskById } = require('./DataAccessLayer.js')
+const { deleteTask } = require('./DataAccessLayer.js')
+const { checkComplete } = require('./DataAccessLayer.js')
+const { deleteListTasks } = require('./DataAccessLayer.js')
+const { updateListbyID } = require('./DataAccessLayer.js')
+const { updateListAttributes } = require('./DataAccessLayer.js')
+const { deleteTasks } = require('./DataAccessLayer.js')
 
 
 
