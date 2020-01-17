@@ -38,20 +38,6 @@ const { deleteTasks } = require('./DataAccessLayer.js')
 
 
 
-app.post('/lists', async (req, res) => {
-    const newList = req.body
-    const list = await createList(newList)
-    console.log('A list POST Request was made.');
-    res.send(list);
-});
-
-app.post('/tasks', async (req, res) => {
-    const newTask = req.body
-    const task = await createTask(newTask)
-    console.log('A task POST Request was made.');
-    res.send(task)
-});
-
 app.post('/users', async (req, res) => {
     const newUser = req.body
     const user = await createUser(newUser)
@@ -59,24 +45,23 @@ app.post('/users', async (req, res) => {
     res.send(user)
 });
 
-app.get('/tasks', async (req, res) => {
-    let filter1 = req.query.user.toString()
-    let filter2 = req.query.list.toString()
-    console.log(filter1)
-    console.log(filter2)
-    const tasks = await readTasks(filter1, filter2)
-    console.log('A task GET Request was made');
-    res.send(tasks)
-});
+app.get('/users-names-available', async (req,res) => {
+    let filter = req.query.username
+    console.log(filter)
+    const clear = await checkUse(filter)
+    console.log(clear)
+    res.send(clear)
+})
 
-app.get('/lists', async (req, res) => {
-    let filter = req.query.user.toString()
-    const lists = await readLists(filter)
-    console.log('A list GET Request was made');
-    res.send(lists)
-});
+app.get('/users-emails-available', async (req, res) => {
+    let filter = req.query.email
+    console.log(filter)
+    const clear = await checkEmail(filter)
+    console.log(clear)
+    res.send(clear)
+})
 
-app.get('/colortheme', async (req, res) => {
+app.get('/users-login', async (req, res) => {
     let filter = req.query.username
     let pass = req.query.password
     console.log(filter)
@@ -84,44 +69,21 @@ app.get('/colortheme', async (req, res) => {
     console.log(user)
     const match = check(user.data[0].password, pass)
     res.send(match)
-    }
-);
-
-app.get('/textfont', async (req,res) => {
-    let filter = req.query.username
-    console.log(filter)
-    const clear = await checkUse(filter)
-    console.log(clear)
-    res.send(clear)
-    }
-)
-
-app.get('/textcolor', async (req, res) => {
-    let filter = req.query.email
-    console.log(filter)
-    const clear = await checkEmail(filter)
-    console.log(clear)
-    res.send(clear)
-    }
-)
-
-app.get('/completion', async (req, res) => {
-    let id = req.query.id.toString()
-    let comp = req.query.completed.toString()
-    const completed = await checkComplete(id, comp)
-    res.send(completed)
-
 })
 
-app.patch('/tasks', async (req, res) => {
-    let id = req.body.params.id
-    let task = req.body.params.task
-    console.log(id)
-    console.log(task)
-    await updateTaskById(id, task)
-    console.log('A PATCH Request was made!');
-    res.send()
-});
+app.post('/lists', async (req, res) => {
+    const newList = req.body
+    const list = await createList(newList)
+    console.log('A list POST Request was made.');
+    res.send(list);
+})
+
+app.get('/lists', async (req, res) => {
+    let filter = req.query.user.toString()
+    const lists = await readLists(filter)
+    console.log('A list GET Request was made');
+    res.send(lists)
+})
 
 app.patch('/list', async (req, res) => {
     let user = req.body.params.user
@@ -135,25 +97,7 @@ app.patch('/list', async (req, res) => {
     await updateListAttributes(user, prevName, nameUpdate)
     console.log('Updated list attributes')
     res.send()
-
 })
-
-app.delete('/tasks', async (req, res) => {
-    let id = req.query.id
-    console.log(id)
-    await deleteTask(id)
-    console.log('A DELETE Request was made!');
-    res.send()
-});
-
-app.delete('/tasksdone', async (req, res) => {
-    let user = req.query.user.toString()
-    let list = req.query.list.toString()
-
-    await deleteCompletedTasks(user, list)
-    console.log('A Done Task DELETE Request was made!');
-    res.send()
-});
 
 app.delete('/list', async (req, res) => {
     let id = req.query.id
@@ -165,10 +109,60 @@ app.delete('/list', async (req, res) => {
     await deleteListTasks(user, list)
     console.log('Deleted corresponding tasks')
     res.send()
-
 })
 
-app.delete('/selecttasks', async (req, res) => {
+app.post('/tasks', async (req, res) => {
+    const newTask = req.body
+    const task = await createTask(newTask)
+    console.log('A task POST Request was made.');
+    res.send(task)
+})
+
+app.get('/tasks', async (req, res) => {
+    let filter1 = req.query.user.toString()
+    let filter2 = req.query.list.toString()
+    console.log(filter1)
+    console.log(filter2)
+    const tasks = await readTasks(filter1, filter2)
+    console.log('A task GET Request was made');
+    res.send(tasks)
+})
+
+app.patch('/task', async (req, res) => {
+    let id = req.body.params.id
+    let task = req.body.params.task
+    console.log(id)
+    console.log(task)
+    await updateTaskById(id, task)
+    console.log('A PATCH Request was made!');
+    res.send()
+})
+
+app.delete('/task', async (req, res) => {
+    let id = req.query.id
+    console.log(id)
+    await deleteTask(id)
+    console.log('A DELETE Request was made!');
+    res.send()
+})
+
+app.get('/tasks-completed', async (req, res) => {
+    let id = req.query.id.toString()
+    let comp = req.query.completed.toString()
+    const completed = await checkComplete(id, comp)
+    res.send(completed)
+})
+
+app.delete('/tasks-completed', async (req, res) => {
+    let user = req.query.user.toString()
+    let list = req.query.list.toString()
+
+    await deleteCompletedTasks(user, list)
+    console.log('A Done Task DELETE Request was made!');
+    res.send()
+})
+
+app.delete('/selected-tasks', async (req, res) => {
     let user = req.query.user
     let list = req.query.list
     let names = req.query.names
@@ -176,7 +170,6 @@ app.delete('/selecttasks', async (req, res) => {
     await deleteTasks(user, list, names)
     console.log('Deleted Selected Tasks')
     res.send()
-
 })
 
 app.get('/*', function(req, res){
