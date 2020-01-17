@@ -281,70 +281,6 @@ const checkEmail = (email) => {
     return iou;
 }
 
-const readTasksByListId = (id) => {
-    let iou = new Promise((resolve, reject) => {
-        // Use connect method to connect to the server
-        MongoClient.connect(url, settings, function (err, client) {
-            if (err) {
-                reject(err)
-            } else {
-                console.log("Connected to server Read tasks by list ID");
-                const db = client.db(dbName);
-                // Get the tasks collection
-                const collection = db.collection('ToDoLists');
-                // Find some documents
-                collection.find({ _id: ObjectId(id) }).toArray(function (err, docs) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        if (docs.length) {
-                            const results = docs[0].ToDoLists.map(async (m) => {
-                                return await readTaskById(m)
-                            })
-                            client.close();
-                            resolve(results);
-                        } else {
-                            reject("No List Found")
-                        }
-                    }
-                });
-            }
-        });
-    })
-    return iou;
-}
-
-const readTasksById = (id) => {
-    let iou = new Promise((resolve, reject) => {
-        // Use connect method to connect to the server
-        MongoClient.connect(url, settings, function (err, client) {
-            if (err) {
-                reject(err)
-            } else {
-                console.log("Connected to server Read tasks by ID");
-                const db = client.db(dbName);
-                // Get the tasks collection
-                const collection = db.collection('ToDoLists');
-                // Find some documents
-                collection.find({ _id: ObjectId(id) }).toArray(function (err, docs) {
-                    if (err) {
-                        reject(err)
-                    } else {
-
-                        const results = {
-                            data: docs,
-                            msg: "Found the following records"
-                        }
-                        client.close();
-                        resolve(results);
-                    }
-                });
-            }
-        });
-    })
-    return iou;
-}
-
 const readLists = (name) => {
     let iou = new Promise((resolve, reject) => {
         // Use connect method to connect to the server
@@ -604,23 +540,4 @@ const deleteListTasks = (user, list) => {
 };
 
 
-module.exports = { testConnection, createTask, createList, createUser, readTasks, checkComplete, checkPass, checkUse, checkEmail, check, deleteTask, deleteTasks, deleteCompletedTasks, deleteList, deleteListTasks, readTasksByListId, readTasksById, readLists, updateTaskById, updateListbyID, updateListAttributes };
-
-
-//const main = async () => {
-//     console.log(await testConnection())
-//     console.log('----------------------- Post Test')
-//     console.log(await createTask(newTask))
-//     console.log('----------------------- Post Create')
-//     console.log(await readTasks(readTarget, readFilter))
-//     console.log('----------------------- Post Read')
-//     console.log(await updateTasks(updateTarget, updateFilter, changeTask))
-//     console.log('----------------------- Post Update')
-//     //console.log(await deleteTask(''))
-//     console.log('----------------------- Post Delete')
-//     console.log(await readTasks())
-//     console.log('----------------------- Post Read')
-
-// }
-
-// main()
+module.exports = { testConnection, createTask, createList, createUser, readTasks, checkComplete, checkPass, checkUse, checkEmail, check, deleteTask, deleteTasks, deleteCompletedTasks, deleteList, deleteListTasks, readLists, updateTaskById, updateListbyID, updateListAttributes };
