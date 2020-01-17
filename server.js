@@ -162,7 +162,7 @@ app.delete('/tasks-completed', async (req, res) => {
     res.send()
 })
 
-app.delete('/selected-tasks', async (req, res) => {
+app.delete('/tasks-selected', async (req, res) => {
     let user = req.query.user
     let list = req.query.list
     let names = req.query.names
