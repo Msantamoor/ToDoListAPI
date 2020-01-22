@@ -38,14 +38,14 @@ const { deleteTasks } = require('./DataAccessLayer.js')
 
 
 
-app.post('/users', async (req, res) => {
+app.post('/user', async (req, res) => {
     const newUser = req.body
     const user = await createUser(newUser)
     console.log('A user POST Request was made');
     res.send(user)
 });
 
-app.get('/users-names-available', async (req,res) => {
+app.get('/user-names', async (req,res) => {
     let filter = req.query.username
     console.log(filter)
     const clear = await checkUse(filter)
@@ -53,7 +53,7 @@ app.get('/users-names-available', async (req,res) => {
     res.send(clear)
 })
 
-app.get('/users-emails-available', async (req, res) => {
+app.get('/user-emails', async (req, res) => {
     let filter = req.query.email
     console.log(filter)
     const clear = await checkEmail(filter)
@@ -61,7 +61,7 @@ app.get('/users-emails-available', async (req, res) => {
     res.send(clear)
 })
 
-app.get('/users-login', async (req, res) => {
+app.get('/user-login', async (req, res) => {
     let filter = req.query.username
     let pass = req.query.password
     console.log(filter)
@@ -71,7 +71,7 @@ app.get('/users-login', async (req, res) => {
     res.send(match)
 })
 
-app.post('/lists', async (req, res) => {
+app.post('/list', async (req, res) => {
     const newList = req.body
     const list = await createList(newList)
     console.log('A list POST Request was made.');
@@ -111,7 +111,7 @@ app.delete('/list', async (req, res) => {
     res.send()
 })
 
-app.post('/tasks', async (req, res) => {
+app.post('/task', async (req, res) => {
     const newTask = req.body
     const task = await createTask(newTask)
     console.log('A task POST Request was made.');
