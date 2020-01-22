@@ -13,26 +13,6 @@ const settings = {
     useNewUrlParser: true
 }
 
-const testConnection = () => {
-    const iou = new Promise((resolve, reject) => {
-        // Use connect method to connect to the server
-        MongoClient.connect(url, settings, function (err, client) {
-            if (err) {
-                // assert.equal(null, err);
-                reject(err)
-            } else {
-                const db = client.db(dbName);
-                // console.log("client", client)
-                // console.log("db", db)
-                client.close();
-                resolve("Connected successfully to server")
-            }
-        });
-    })
-    return iou
-}
-
-
 const createTask = (task) => {
     // Use connect method to connect to the server
     let iou = new Promise((resolve, reject) => {

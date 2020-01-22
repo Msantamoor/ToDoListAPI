@@ -16,7 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'react')));
 
 
-const { testConnection } = require('./DataAccessLayer.js')
 const { createUser } = require('./DataAccessLayer.js')
 const { createTask } = require('./DataAccessLayer.js')
 const { createList }  = require('./DataAccessLayer.js')
